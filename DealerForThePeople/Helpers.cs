@@ -10,6 +10,10 @@ namespace DealerForThePeople
 {
     public class Helpers
     {
+        /// <summary>
+        /// Orders the reviews by their score (highest first) and then Prints the first 3 into the conosle for user to see
+        /// </summary>
+        /// <param name="reviews">List of 'Review' objects</param>
         public static void PrintReviewsToConsole(List<Review> reviews)
         {
             reviews = reviews.OrderByDescending(x => x.Score).ToList();
@@ -19,6 +23,11 @@ namespace DealerForThePeople
             }
         }
 
+        /// <summary>
+        /// Takes in the html document appends to list of reviews.
+        /// </summary>
+        /// <param name="html">HtmlDocument from HtmlAgilityPack nuget package.</param>
+        /// <param name="reviews">List of 'Review' objects to append to.</param>
         public static void GetReviewsFromHtml(HtmlDocument html, List<Review> reviews)
         {
             HtmlNodeCollection reviewsHtml = html.DocumentNode.SelectNodes("//div[contains(@class, 'review-entry')]");
@@ -31,6 +40,10 @@ namespace DealerForThePeople
             }
         }
 
+        /// <summary>
+        /// Takes in a single HtmlDocument, parses into the 'Review' class.
+        /// </summary>
+        /// <param name="reviewHtml">HtmlDocument reprenting a single review.</param>
         public static Review ParseReview(HtmlDocument reviewHtml)
         {
             try
@@ -50,6 +63,12 @@ namespace DealerForThePeople
             }
         }
 
+        /// <summary>
+        /// Takes in a string. Rating is calculated based on class name
+        /// i.e. rating-50 = 5/5, rating-48 = 4.8 etc
+        /// </summary>
+        /// <param name="outerHtml">string representing the div tag in which the rating is contained</param>
+        /// <returns>The integer value contained in the classname. i.e. 48, 50 etc</returns>
         public static int ParseRating(string outerHtml)
         {
             int indexEnd = outerHtml.IndexOf("pull-right") - 1;
