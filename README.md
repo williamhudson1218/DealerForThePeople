@@ -1,6 +1,6 @@
 # DealerforthePeople
 
-Dealer for the People is a tool used to identify positive reviews from the `dealerrater.com` website. The scoring rules used to determine the most positive reviews is outlined below.
+Dealer for the People is a tool used to identify positive reviews from the `dealerrater.com` website. The scoring rules used to determine the most positive reviews are outlined below.
 
 ## Installation
 
