@@ -59,7 +59,7 @@ namespace DealerForThePeople.Model
                 //2 point for having the word 'fantastic'
                 score += Body.ToLower().Contains("fantastic") ? 2 : 0;
                 //1 point for every 100 characters
-                score += Body.Length >= 1000 ? 10 : Body.Length/ 10;
+                score += Body.Length >= 1000 ? 10 : Body.Length/ 100;
             }
             return score;
         }
