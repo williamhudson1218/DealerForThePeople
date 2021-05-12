@@ -20,7 +20,6 @@ In Visual Studio
 File -> Open -> DealerForThePeople.sln
 F5 to run the project
 In console/terminal you will see the 3 most severely positive reviews listed along with the score they were given.
-*Note: if you download .NET core after loading Visual Studio you may need to restart VS for the project to compile*
 
 # Run tests MacOS
 Run -> Unit Tests
@@ -29,6 +28,8 @@ Test Results panel will appear at the bottom of the application
 #Run Tests Windows
 View -> Test Explorer -> Run All Tests In View
 ```
+
+*Note: if you download .NET core after loading the project in Visual Studio you may need to restart Visual Studio for the project to compile*
 
 ## Scoring
 ###### Note: Ratings on `dealerrater.com` are on a scale 1-50 and are represented visually to users on a x/5 scale.
