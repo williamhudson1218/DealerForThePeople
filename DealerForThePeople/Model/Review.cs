@@ -36,26 +36,5 @@ namespace DealerForThePeople.Model
             sb.Append(Environment.NewLine);
             return sb.ToString();
         }
-
-        public int GetScore()
-        {
-            int score = 0;
-            //2 points for every star
-            score += Rating / 5;
-            if( Body != null)
-            {
-                //1 point for every !, maximum of 3 points
-                score += Body.Count(x => x == '!') < 3 ? Body.Count(x => x == '!') : 3;
-                //2 point for having the word 'love'
-                score += Body.ToLower().Contains("love") ? 2 : 0;
-                //2 point for having the word 'excellent'
-                score += Body.ToLower().Contains("excellent") ? 2 : 0;
-                //2 point for having the word 'fantastic'
-                score += Body.ToLower().Contains("fantastic") ? 2 : 0;
-                //1 point for every 100 characters
-                score += Body.Length >= 1000 ? 10 : Body.Length/ 100;
-            }
-            return score;
-        }
     }
 }
