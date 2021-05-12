@@ -8,6 +8,7 @@ Clone the `DealerForThePeople` repository to your machine
 
 *.NET Core 5.0 is required for installation
 [.NET Core for macOS](https://docs.microsoft.com/en-us/dotnet/core/install/macos)
+
 [.NET Core for Windows](https://dotnet.microsoft.com/download)
 
 ## Usage
