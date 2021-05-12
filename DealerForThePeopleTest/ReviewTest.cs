@@ -51,6 +51,14 @@ namespace DealerForThePeopleTest
         }
 
         [TestMethod]
+        public void ReviewsCountIsFifty()
+        {
+            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews(SettingsBO.GetURL());
+            List<Review> reviewList = ReviewBO.ParseReviews(htmlDocList);
+            Assert.IsTrue(reviewList.Count == 50);
+        }
+
+        [TestMethod]
         public void ParseReviewNotNull()
         {
             HtmlDocument doc = new();
