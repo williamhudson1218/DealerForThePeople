@@ -29,10 +29,10 @@ Test Results panel will appear at the bottom of the application
 View -> Test Explorer -> Run All Tests In View
 ```
 
-*Note: if you download .NET core after loading the project in Visual Studio you may need to restart Visual Studio for the project to compile*
+*Note: if you download .NET core after loading the project in Visual Studio you may need to restart Visual Studio for the project to compile.*
 
 ## Scoring
-###### Note: Ratings on `dealerrater.com` are on a scale 1-50 and are represented visually to users on a x/5 scale.
+*Note: Ratings on `dealerrater.com` are on a scale 1-50 and are represented visually to users on a x/5 scale.*
 
 - Rating - The score for rating is calculated by dividing the 1-50 rating by 5. `i.e. 50/5 would be 10 points`
 - `!`'s are awarded 1 point each up to 3 maximum points.
