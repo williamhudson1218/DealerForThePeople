@@ -14,13 +14,7 @@ namespace DealerForThePeople.Model
         public int Rating { get; set; }
         public DateTime Date { get; set; }
         public List<string> EmployeesWorkedWith { get; set; }
-        public int Score
-        {
-            get
-            {
-                return GetScore();
-            }
-        }
+        public int Score { get; set; }
 
         public override string ToString()
         {
@@ -29,7 +23,7 @@ namespace DealerForThePeople.Model
             sb.Append(Environment.NewLine); 
             sb.Append($"Date: {Date.ToString("MM/dd/yyyy")}");
             sb.Append(Environment.NewLine);
-            sb.Append($"Rating: {Rating}/5");
+            sb.Append($"Rating: {Rating/10}/5");
             sb.Append(Environment.NewLine);
             sb.Append($"Title: {Title}");
             sb.Append(Environment.NewLine);

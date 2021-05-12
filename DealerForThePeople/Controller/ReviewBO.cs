@@ -3,13 +3,30 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
-namespace DealerForThePeople
+namespace DealerForThePeople.Controller
 {
-    public class Helpers
+    public static class ReviewBO
     {
+        public static List<HtmlDocument> GetReviews()
+        {
+            List<HtmlDocument> docList = new();
+
+            for (int i = 0; i < 5; i++)
+            {
+                HtmlDocument htmlDoc = new();
+                using (WebClient client = new())
+                {
+                    string url = SettingsBO.GetURL().Replace("page", $"page{i + 1}");
+                    string htmlString = client.DownloadString(url);
+                    htmlDoc.LoadHtml(htmlString);
+                }
+                docList.Add(htmlDoc);
+            }
+            return docList;
+        }
+
         /// <summary>
         /// Orders the reviews by their score (highest first) and then Prints the first 3 into the conosle for user to see
         /// </summary>
@@ -27,17 +44,23 @@ namespace DealerForThePeople
         /// Takes in the html document appends to list of reviews.
         /// </summary>
         /// <param name="html">HtmlDocument from HtmlAgilityPack nuget package.</param>
-        /// <param name="reviews">List of 'Review' objects to append to.</param>
-        public static void GetReviewsFromHtml(HtmlDocument html, List<Review> reviews)
+        public static List<Review> ParseReviews(List<HtmlDocument> docList)
         {
-            HtmlNodeCollection reviewsHtml = html.DocumentNode.SelectNodes("//div[contains(@class, 'review-entry')]");
-
-            foreach (HtmlNode review in reviewsHtml)
+            List<Review> reviews = new();
+            foreach (HtmlDocument html in docList)
             {
-                HtmlDocument reviewHtml = new();
-                reviewHtml.LoadHtml(review.OuterHtml);
-                reviews.Add(ParseReview(reviewHtml));
+                HtmlNodeCollection reviewsHtml = html.DocumentNode.SelectNodes("//div[contains(@class, 'review-entry')]");
+
+                foreach (HtmlNode review in reviewsHtml)
+                {
+                    HtmlDocument reviewHtml = new();
+                    reviewHtml.LoadHtml(review.OuterHtml);
+                    Review r = ParseReview(reviewHtml);
+                    r.Score = ScoreBO.CalculateScore(r);
+                    reviews.Add(r);
+                }
             }
+            return reviews;
         }
 
         /// <summary>
