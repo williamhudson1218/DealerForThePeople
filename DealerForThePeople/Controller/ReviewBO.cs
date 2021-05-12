@@ -4,13 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 
 namespace DealerForThePeople.Controller
 {
     public static class ReviewBO
     {
-        public static List<HtmlDocument> GetReviews()
+        public static List<HtmlDocument> GetReviews(string url)
         {
+            if (string.IsNullOrWhiteSpace(url))
+                return null;
+
             List<HtmlDocument> docList = new();
 
             for (int i = 0; i < 5; i++)
@@ -18,8 +22,30 @@ namespace DealerForThePeople.Controller
                 HtmlDocument htmlDoc = new();
                 using (WebClient client = new())
                 {
-                    string url = SettingsBO.GetURL().Replace("page", $"page{i + 1}");
-                    string htmlString = client.DownloadString(url);
+                    if (url.Contains("page"))
+                    {
+                        int pageIndex = url.IndexOf("page");
+                        StringBuilder sb = new StringBuilder(url);
+                        sb.Remove(pageIndex, 5).Insert(pageIndex, $"page{i + 1}");
+                        url = sb.ToString();
+                    }
+                    else
+                        i = 4;
+
+                    string htmlString = "";
+                    try
+                    {
+                        htmlString = client.DownloadString(url);
+                    }
+                    catch 
+                    {
+                        //this means the url is bad
+                        return docList;
+                    };
+
+                    if (string.IsNullOrWhiteSpace(htmlString))
+                        continue;
+
                     htmlDoc.LoadHtml(htmlString);
                 }
                 docList.Add(htmlDoc);
@@ -36,7 +62,23 @@ namespace DealerForThePeople.Controller
             reviews = reviews.OrderByDescending(x => x.Score).ToList();
             for (int i = 0; i < 3; i++)
             {
-                Console.WriteLine(reviews[i].ToString());
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"Username: {reviews[i].Username}");
+                sb.Append(Environment.NewLine);
+                sb.Append($"Date: {reviews[i].Date.ToString("MM/dd/yyyy")}");
+                sb.Append(Environment.NewLine);
+                sb.Append($"Rating: {reviews[i].Rating / 10}/5");
+                sb.Append(Environment.NewLine);
+                sb.Append($"Title: {reviews[i].Title}");
+                sb.Append(Environment.NewLine);
+                sb.Append($"Body: {reviews[i].Body}");
+                sb.Append(Environment.NewLine);
+                sb.Append($"Score: {reviews[i].Score}");
+                sb.Append(Environment.NewLine);
+                sb.Append(Environment.NewLine);
+                sb.Append("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                sb.Append(Environment.NewLine);
+                Console.WriteLine(sb.ToString());
             }
         }
 

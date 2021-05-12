@@ -10,7 +10,7 @@ namespace DealerForThePeople
     {
         public static void Main(string[] args)
         {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews();
+            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews(SettingsBO.GetURL());
             List<Review> reviews = ReviewBO.ParseReviews(htmlDocList);
             ReviewBO.PrintReviewsToConsole(reviews);
 
