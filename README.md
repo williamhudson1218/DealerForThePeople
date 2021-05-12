@@ -7,6 +7,8 @@ Dealer for the People is a tool used to identify positive reviews from the `deal
 Clone the `DealerForThePeople` repository to your machine
 
 *.NET Core 5.0 is required for installation
+[.NET Core for macOS](https://docs.microsoft.com/en-us/dotnet/core/install/macos)
+[.NET Core for Windows](https://dotnet.microsoft.com/download)
 
 ## Usage
 
@@ -15,7 +17,8 @@ Clone the `DealerForThePeople` repository to your machine
 In Visual Studio
 File -> Open -> DealerForThePeople.sln
 F5 to run the project
-In console/terminal you will see the 3 most severe reviews listed along with the score they were given.
+In console/terminal you will see the 3 most severely positive reviews listed along with the score they were given.
+*Note: if you download .NET core after loading Visual Studio you may need to restart VS for the project to compile*
 
 # Run tests MacOS
 Run -> Unit Tests
