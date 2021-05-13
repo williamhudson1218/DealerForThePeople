@@ -37,7 +37,7 @@ View -> Test Explorer -> Run All Tests In View
 - Rating - The score for rating is calculated by dividing the 1-50 rating by 5. `i.e. 50/5 would be 10 points`
 - `!`'s are awarded 1 point each up to 3 maximum points.
 - Every 100 characters in the body of the review is worth 1 point each for a maximum of 10 points.
-- Usage of the words `love`, `excellent`, and `fantastic` are each rewarded 2 points.
+- The appsettings.json file contains an array of both `positiveWords` and `negativeWords`. Each `positiveWord` = +2 points. Each `negativeWord` = -2 points.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
