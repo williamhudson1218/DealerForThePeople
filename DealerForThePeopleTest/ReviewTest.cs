@@ -12,49 +12,42 @@ namespace DealerForThePeopleTest
         [TestMethod]
         public void URLIsNotNull()
         {
-            Assert.IsNotNull(SettingsBO.GetURL());
+            Assert.IsNotNull(SettingsLogic.GetURL());
         }
 
         [TestMethod]
         public void DocListIsNull()
         {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews("");
+            List<HtmlDocument> htmlDocList = ReviewLogic.GetReviews("");
             Assert.IsNull(htmlDocList);
         }
 
         [TestMethod]
         public void BadURLTest()
         {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews("https://google.com/;alksdfj;alsdkj");
+            List<HtmlDocument> htmlDocList = ReviewLogic.GetReviews("https://google.com/;alksdfj;alsdkj");
             Assert.IsTrue(htmlDocList.Count == 0);
-        }
-
-        [TestMethod]
-        public void TestDealerWithOnePageOfResults()
-        {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews("https://www.dealerrater.com/dealer/Ferrari-of-Salt-Lake-City-review-13155/page/?filter=#link");
-            Assert.IsTrue(htmlDocList.Count == 1);
         }
 
         [TestMethod]
         public void ReviewCountIsFive()
         {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews(SettingsBO.GetURL());
+            List<HtmlDocument> htmlDocList = ReviewLogic.GetReviews(SettingsLogic.GetURL());
             Assert.IsTrue(htmlDocList.Count == 5);
         }
 
         [TestMethod]
         public void ReviewHtmlIsNotNull()
         {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews(SettingsBO.GetURL());
+            List<HtmlDocument> htmlDocList = ReviewLogic.GetReviews(SettingsLogic.GetURL());
             Assert.IsFalse(string.IsNullOrWhiteSpace(htmlDocList[0].Text));
         }
 
         [TestMethod]
         public void ReviewsCountIsFifty()
         {
-            List<HtmlDocument> htmlDocList = ReviewBO.GetReviews(SettingsBO.GetURL());
-            List<Review> reviewList = ReviewBO.ParseReviews(htmlDocList);
+            List<HtmlDocument> htmlDocList = ReviewLogic.GetReviews(SettingsLogic.GetURL());
+            List<Review> reviewList = ReviewLogic.ParseReviews(htmlDocList);
             Assert.IsTrue(reviewList.Count == 50);
         }
 
@@ -64,7 +57,7 @@ namespace DealerForThePeopleTest
             HtmlDocument doc = new();
             doc.Load("../../../ParseReviewNotNull.html");
 
-            Review review = ReviewBO.ParseReview(doc);
+            Review review = ReviewLogic.ParseReview(doc);
             Assert.IsNotNull(review);
         }
 
@@ -72,7 +65,7 @@ namespace DealerForThePeopleTest
         public void EmptyReviewIsNull()
         {
             HtmlDocument doc = new();
-            Review review = ReviewBO.ParseReview(doc);
+            Review review = ReviewLogic.ParseReview(doc);
             Assert.IsNull(review);
         }
 
@@ -80,14 +73,14 @@ namespace DealerForThePeopleTest
         public void RatingParsesCorrectly()
         {
             string ratingHtml = "rating-45 pull-right";
-            Assert.IsTrue(ReviewBO.ParseRating(ratingHtml) == 45);
+            Assert.IsTrue(ReviewLogic.ParseRating(ratingHtml) == 45);
         }
 
         [TestMethod]
         public void BadRatingParsesCorrectly()
         {
             string ratingHtml = "asdfasdf pull-right";
-            Assert.IsTrue(ReviewBO.ParseRating(ratingHtml) == 0);
+            Assert.IsTrue(ReviewLogic.ParseRating(ratingHtml) == 0);
         }
     }
 }

@@ -8,8 +8,13 @@ using System.Text;
 
 namespace DealerForThePeople.Controller
 {
-    public static class ReviewBO
+    public static class ReviewLogic
     {
+        /// <summary>
+        /// Makes a web request to download the html from the specified url
+        /// If the url contains "page", it will try to iterate over the first 5 pages to return multiple HtmlDocuments 
+        /// </summary>
+        /// <param name="url">The url of the website from which we are fetching reviews.</param>
         public static List<HtmlDocument> GetReviews(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -25,10 +30,12 @@ namespace DealerForThePeople.Controller
                     if (url.Contains("page"))
                     {
                         int pageIndex = url.IndexOf("page");
-                        StringBuilder sb = new StringBuilder(url);
+                        StringBuilder sb = new (url);
                         sb.Remove(pageIndex, 5).Insert(pageIndex, $"page{i + 1}");
                         url = sb.ToString();
                     }
+                    //The url we are fetching data from isn't configured for us to know
+                    // how to iterate over the 5 pages, so force the loop to end after we parse page 1
                     else
                         i = 4;
 
@@ -39,7 +46,7 @@ namespace DealerForThePeople.Controller
                     }
                     catch 
                     {
-                        //this means the url is bad
+                        //url is bad
                         return docList;
                     };
 
@@ -54,7 +61,7 @@ namespace DealerForThePeople.Controller
         }
 
         /// <summary>
-        /// Orders the reviews by their score (highest first) and then Prints the first 3 into the conosle for user to see
+        /// Orders the reviews by their score (highest first) and then Prints the first 3 into the console for user to see
         /// </summary>
         /// <param name="reviews">List of 'Review' objects</param>
         public static void PrintReviewsToConsole(List<Review> reviews)
@@ -98,7 +105,6 @@ namespace DealerForThePeople.Controller
                     HtmlDocument reviewHtml = new();
                     reviewHtml.LoadHtml(review.OuterHtml);
                     Review r = ParseReview(reviewHtml);
-                    r.Score = ScoreBO.CalculateScore(r);
                     reviews.Add(r);
                 }
             }
@@ -130,7 +136,12 @@ namespace DealerForThePeople.Controller
 
         /// <summary>
         /// Takes in a string. Rating is calculated based on class name
-        /// i.e. rating-50 = 5/5, rating-48 = 4.8 etc
+        /// <example>For example:
+        /// <code>
+        ///     int rating = ReviewLogic.ParseRating("rating-45 pull-right");
+        /// </code>
+        /// results in <c>rating</c> having the value 45.
+        /// </example>
         /// </summary>
         /// <param name="outerHtml">string representing the div tag in which the rating is contained</param>
         /// <returns>The integer value contained in the classname. i.e. 48, 50 etc</returns>

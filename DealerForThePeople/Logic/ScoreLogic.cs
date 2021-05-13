@@ -1,14 +1,28 @@
 ﻿using DealerForThePeople.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DealerForThePeople.Controller
 {
-    public static class ScoreBO
+    public static class ScoreLogic
     {
+        /// <summary>
+        /// Iterates over each Review to calculate score
+        /// </summary>
+        /// <param name="reviews">List<Review> objects.</param>
+        public static void CalculateScores(List<Review> reviews)
+        {
+            foreach(Review r in reviews)
+            {
+                r.Score = r.CalculateScore();
+            }
+        }
+
+        /// <summary>
+        /// Takes in a Review object
+        /// Outputs a score reflecting the "positivity" of the review
+        /// </summary>
+        /// <param name="review">A single Review object.</param>
         public static int CalculateScore(this Review review)
         {
             int score = 0;
@@ -17,14 +31,14 @@ namespace DealerForThePeople.Controller
             if (review.Body != null)
             {
                 //2 points for each positive word
-                var postiveWordList = SettingsBO.GetPositiveWords();
+                var postiveWordList = SettingsLogic.GetPositiveWords();
                 foreach(string s in postiveWordList)
                 {
                     score += review.Body.ToLower().Contains(s) ? 2 : 0;
                 }
 
                 //-2 points for each negative word
-                var negativeWordList = SettingsBO.GetNegativeWords();
+                var negativeWordList = SettingsLogic.GetNegativeWords();
                 foreach (string s in negativeWordList)
                 {
                     score -= review.Body.ToLower().Contains(s) ? 2 : 0;

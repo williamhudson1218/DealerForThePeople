@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DealerForThePeople.Controller
 {
-    public static class SettingsBO
+    public static class SettingsLogic
     {
         public static string GetURL()
         {
